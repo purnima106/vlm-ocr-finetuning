@@ -1,0 +1,9 @@
+transformers
+datasets
+peft
+accelerate
+bitsandbytes
+torch
+Pillow
+tqdm
+

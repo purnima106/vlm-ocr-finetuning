@@ -1,0 +1,30 @@
+[
+  {
+    "id": "test-000000",
+    "image": "C:/Users/Purnima/OneDrive/Desktop/TryinggPP/vlm_ocr_finetuning/data/images/test/test_000000.png",
+    "messages": [
+      {
+        "role": "user",
+        "content": [
+          {
+            "type": "image",
+            "image": "C:/Users/Purnima/OneDrive/Desktop/TryinggPP/vlm_ocr_finetuning/data/images/test/test_000000.png"
+          },
+          {
+            "type": "text",
+            "text": "Extract all text from this document. Return only the text."
+          }
+        ]
+      },
+      {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "text",
+            "text": "Bubur Polos + Telur\n1\n13.000\n13.000\nSubtotal 13.000\nPajak -\nTotal 13.000"
+          }
+        ]
+      }
+    ]
+  }
+]
