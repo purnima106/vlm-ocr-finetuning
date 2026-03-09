@@ -149,6 +149,7 @@ The comparison script (`inference.py`) provides a direct way to evaluate improve
 vlm_ocr_finetuning/
 ├── prepare_dataset.py    # Dataset preparation script
 ├── finetune.py           # Training script with QLoRA
+├── evaluate.y            # (Additional file for evalution of performance)
 ├── inference.py          # Model comparison script
 ├── requirements.txt      # Python dependencies
 ├── README.md             # This file
