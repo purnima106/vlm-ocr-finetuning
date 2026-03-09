@@ -107,7 +107,7 @@ def process_split(
 
     return records
 
-
+#Entry point 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Prepare CORD-v2 chat-style OCR JSON files.")
     parser.add_argument("--train_size", type=int, default=1000, help="Number of training samples to write.")

@@ -24,17 +24,19 @@ from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
 from PIL import Image
 from transformers import (
     AutoProcessor,
-    AutoModelForVision2Seq,
+    Qwen2_5_VLForConditionalGeneration,
     BitsAndBytesConfig,
     TrainingArguments,
     Trainer,
     DataCollatorForLanguageModeling,
+  
 )
 from transformers.trainer_utils import PREFIX_CHECKPOINT_DIR
 
 
 # Model configuration
 MODEL_NAME = "Qwen/Qwen2.5-VL-3B-Instruct"
+
 
 # LoRA configuration
 LORA_R = 16
@@ -53,7 +55,7 @@ DEFAULT_WARMUP_STEPS = 10
 def load_model_and_processor(
     model_name: str,
     cache_dir: str | None = None,
-) -> tuple[AutoModelForVision2Seq, AutoProcessor]:
+) -> tuple[Qwen2_5_VLForConditionalGeneration, AutoProcessor]:
     """
     Load the Qwen2.5-VL model and processor with 4-bit quantization.
     
@@ -82,13 +84,13 @@ def load_model_and_processor(
     )
     
     # Load model with 4-bit quantization
-    model = AutoModelForVision2Seq.from_pretrained(
-        model_name,
-        quantization_config=bnb_config,
-        device_map="auto",
-        cache_dir=cache_dir,
-        trust_remote_code=True,
-    )
+    model = Qwen2_5_VLForConditionalGeneration.from_pretrained(
+    model_name,
+    quantization_config=bnb_config,
+    device_map="auto",
+    cache_dir=cache_dir,
+    trust_remote_code=True,
+)
     
     # Prepare model for k-bit training (enables gradient checkpointing, etc.)
     model = prepare_model_for_kbit_training(model)
@@ -97,7 +99,7 @@ def load_model_and_processor(
     return model, processor
 
 
-def setup_lora(model: AutoModelForVision2Seq) -> AutoModelForVision2Seq:
+def setup_lora(model: Qwen2_5_VLForConditionalGeneration) -> Qwen2_5_VLForConditionalGeneration:
     """
     Configure and apply LoRA adapters to the model.
     
@@ -231,9 +233,7 @@ def preprocess_function(examples: Dict[str, Any], processor: AutoProcessor) -> D
             raise ValueError(f"Could not load image. Path: {img_path}")
         
         images.append(image)
-        
-        # Format messages for Qwen2.5-VL processor
-        # Replace image paths in messages with actual PIL Images
+      
         formatted_messages = []
         for msg in messages:
             role = msg["role"]
@@ -253,7 +253,7 @@ def preprocess_function(examples: Dict[str, Any], processor: AutoProcessor) -> D
                 "content": processed_content if processed_content else content,
             })
         
-        texts.append(formatted_messages)
+        texts.append(processor.apply_chat_template(formatted_messages, tokenize=False))
     
     # Process with the processor
     # Qwen2.5-VL processor handles tokenization and image preprocessing

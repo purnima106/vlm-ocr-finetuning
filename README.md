@@ -119,6 +119,20 @@ This will:
 - `--seed`: Random seed for sample selection (default: 42)
 - `--use_4bit`: Use 4-bit quantization for base model (saves memory)
 
+## Evaluation Metrics
+
+The project includes quantitative evaluation using standard OCR metrics:
+- **BLEU Score**: Measures n-gram overlap between predicted and ground truth
+- **Character Error Rate (CER)**: Percentage of character-level errors
+- **Word Error Rate (WER)**: Percentage of word-level errors
+
+Run comprehensive evaluation:
+python evaluate.py --test_file data/test.json --adapter_dir adapterThis generates a detailed report showing:
+- Aggregate metrics for base vs fine-tuned model
+- Per-sample breakdown
+- Improvement percentages
+- Statistical significance (optional)
+
 ## Results Discussion
 
 The fine-tuning process adapts the pre-trained Qwen2.5-VL model to better understand document OCR tasks. Key observations:

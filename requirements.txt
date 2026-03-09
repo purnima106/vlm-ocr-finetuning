@@ -6,4 +6,6 @@ bitsandbytes
 torch
 Pillow
 tqdm
+nltk
+jiwer 
 
